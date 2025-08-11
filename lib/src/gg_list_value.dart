@@ -49,9 +49,7 @@ class GgListValue<T> extends GgValue<List<T>> {
   // ...........................................................................
   /// Removes the first occurence of the item
   void remove(T val) {
-    final index = value.indexWhere(
-      (element) => element == val,
-    );
+    final index = value.indexWhere((element) => element == val);
 
     removeAt(index);
   }
@@ -82,8 +80,8 @@ class GgListValue<T> extends GgValue<List<T>> {
     final newToIndex = value.length <= 2
         ? toIndex
         : fromIndex < toIndex
-            ? toIndex - 1
-            : toIndex;
+        ? toIndex - 1
+        : toIndex;
 
     final oldValue = value;
     final newValue = [...oldValue];

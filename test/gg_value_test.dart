@@ -51,30 +51,32 @@ void main() {
         });
       });
 
-      test('should make sure, scheduled micro tasks are not called anymore',
-          () {
-        fakeAsync((fake) {
-          // Observe a GgValue
-          final v = GgValue(seed: 1, spam: false);
-          var updatedValue = 0;
-          v.stream.listen((value) => updatedValue = value);
+      test(
+        'should make sure, scheduled micro tasks are not called anymore',
+        () {
+          fakeAsync((fake) {
+            // Observe a GgValue
+            final v = GgValue(seed: 1, spam: false);
+            var updatedValue = 0;
+            v.stream.listen((value) => updatedValue = value);
 
-          // Make a test change before dispose
-          v.value++;
-          fake.flushMicrotasks();
-          expect(updatedValue, 2);
+            // Make a test change before dispose
+            v.value++;
+            fake.flushMicrotasks();
+            expect(updatedValue, 2);
 
-          // Make a change after dispose
-          v.value++;
+            // Make a change after dispose
+            v.value++;
 
-          // Dispose the value
-          v.dispose();
-          fake.flushMicrotasks();
+            // Dispose the value
+            v.dispose();
+            fake.flushMicrotasks();
 
-          // The change should not be delivered
-          expect(updatedValue, 2);
-        });
-      });
+            // The change should not be delivered
+            expect(updatedValue, 2);
+          });
+        },
+      );
     });
 
     // #########################################################################
@@ -93,9 +95,7 @@ void main() {
         fakeAsync((fake) {
           init();
           final receivedUpdates = [];
-          v.stream.listen(
-            (value) => receivedUpdates.add(value),
-          );
+          v.stream.listen((value) => receivedUpdates.add(value));
 
           v.value = 10;
           fake.flushMicrotasks();
@@ -172,8 +172,11 @@ void main() {
       test('should allow convert a custom type from and to a string', () {
         final foo0 = Foo();
         final foo1 = Foo();
-        final fooVal =
-            GgValue(seed: foo0, parse: (_) => foo1, stringify: (_) => 'Foo3');
+        final fooVal = GgValue(
+          seed: foo0,
+          parse: (_) => foo1,
+          stringify: (_) => 'Foo3',
+        );
         expect(fooVal.value, foo0);
         fooVal.stringValue = 'Hey';
         expect(fooVal.value, foo1);
@@ -181,37 +184,41 @@ void main() {
       });
 
       test(
-          'should throw an exception if no parse method is provided for a custom function',
-          () {
-        final customVal = GgValue(seed: Foo());
+        'should throw an exception if no parse method is provided for a custom function',
+        () {
+          final customVal = GgValue(seed: Foo());
 
-        expect(
-          () => customVal.stringValue = 'hello',
-          throwsA(
-            predicate((ArgumentError e) {
-              expect(e.message, 'Missing "parse" method for type "Foo".');
-              return true;
-            }),
-          ),
-        );
-      });
+          expect(
+            () => customVal.stringValue = 'hello',
+            throwsA(
+              predicate((ArgumentError e) {
+                expect(e.message, 'Missing "parse" method for type "Foo".');
+                return true;
+              }),
+            ),
+          );
+        },
+      );
 
       test(
-          'should throw an exception if no toString method is provided for a custom function',
-          () {
-        final customVal = GgValue(seed: Foo(), parse: (_) => Foo());
+        'should throw an exception if no toString method is provided for a custom function',
+        () {
+          final customVal = GgValue(seed: Foo(), parse: (_) => Foo());
 
-        expect(
-          () => customVal.stringValue,
-          throwsA(
-            predicate((ArgumentError e) {
-              expect(e.message,
-                  'Missing "toString" method for unknown type "Foo".');
-              return true;
-            }),
-          ),
-        );
-      });
+          expect(
+            () => customVal.stringValue,
+            throwsA(
+              predicate((ArgumentError e) {
+                expect(
+                  e.message,
+                  'Missing "toString" method for unknown type "Foo".',
+                );
+                return true;
+              }),
+            ),
+          );
+        },
+      );
 
       test('should work when type becomes dynamic', () {
         final dynamicVal = GgValue<dynamic>(seed: 5.0);
@@ -255,12 +262,18 @@ void main() {
       });
 
       test('should throw an exception, when type is not supported ', () {
-        expect(() => intVal.jsonDecodedValue = Foo(),
-            throwsA(predicate((ArgumentError e) {
-          expect(e.message,
-              'Cannot assign json encoded value Instance of \'Foo\'. The type Foo is not supported.');
-          return true;
-        })));
+        expect(
+          () => intVal.jsonDecodedValue = Foo(),
+          throwsA(
+            predicate((ArgumentError e) {
+              expect(
+                e.message,
+                'Cannot assign json encoded value Instance of \'Foo\'. The type Foo is not supported.',
+              );
+              return true;
+            }),
+          ),
+        );
       });
     });
 
@@ -278,13 +291,14 @@ void main() {
         stringVal = GgValue(seed: 'hello');
       });
       test(
-          'should return the value directly if type is int, double, bool or string',
-          () {
-        expect(intVal.jsonDecodedValue, 1);
-        expect(doubleVal.jsonDecodedValue, 1.1);
-        expect(boolVal.jsonDecodedValue, false);
-        expect(stringVal.jsonDecodedValue, 'hello');
-      });
+        'should return the value directly if type is int, double, bool or string',
+        () {
+          expect(intVal.jsonDecodedValue, 1);
+          expect(doubleVal.jsonDecodedValue, 1.1);
+          expect(boolVal.jsonDecodedValue, false);
+          expect(stringVal.jsonDecodedValue, 'hello');
+        },
+      );
       test('should return stringValue, if type is a non trivial type', () {
         final fooVal = GgValue(seed: Foo(), stringify: (_) => 'Foo');
         expect(fooVal.jsonDecodedValue, 'Foo');
@@ -299,29 +313,30 @@ void main() {
     // #########################################################################
     group('spam', () {
       test(
-          'If spam is set to false, only the last of multiple synchronous value'
-          'changes should be delivered', () {
-        fakeAsync((fake) {
-          init();
+        'If spam is set to false, only the last of multiple synchronous value'
+        'changes should be delivered',
+        () {
+          fakeAsync((fake) {
+            init();
 
-          v.spam = false;
+            v.spam = false;
 
-          final receivedChanges = [];
-          final s = v.stream.listen((value) => receivedChanges.add(value));
-          fake.flushMicrotasks();
-          expect(receivedChanges, []);
-          v.value = 5;
-          v.value = 6;
-          v.value = 7;
-          fake.flushMicrotasks();
-          expect(receivedChanges, [7]);
+            final receivedChanges = [];
+            final s = v.stream.listen((value) => receivedChanges.add(value));
+            fake.flushMicrotasks();
+            expect(receivedChanges, []);
+            v.value = 5;
+            v.value = 6;
+            v.value = 7;
+            fake.flushMicrotasks();
+            expect(receivedChanges, [7]);
 
-          s.cancel();
-        });
-      });
+            s.cancel();
+          });
+        },
+      );
 
-      test(
-          'If spam is set to true, all synchronous value changes should be'
+      test('If spam is set to true, all synchronous value changes should be'
           'delivered', () {
         fakeAsync((fake) {
           init();
@@ -527,18 +542,21 @@ void main() {
 
     // #########################################################################
     group('toString()', () {
-      test('should return a string containing only the value when name is null',
-          () {
-        final val = GgValue(seed: 5);
-        expect(val.toString(), 'GgValue<int>(value: 5)');
-      });
+      test(
+        'should return a string containing only the value when name is null',
+        () {
+          final val = GgValue(seed: 5);
+          expect(val.toString(), 'GgValue<int>(value: 5)');
+        },
+      );
 
       test(
-          'should return a string containing name and value when name is defined',
-          () {
-        final val = GgValue(name: 'myValue', seed: 6);
-        expect(val.toString(), 'GgValue<int>(name: myValue, value: 6)');
-      });
+        'should return a string containing name and value when name is defined',
+        () {
+          final val = GgValue(name: 'myValue', seed: 6);
+          expect(val.toString(), 'GgValue<int>(name: myValue, value: 6)');
+        },
+      );
     });
   });
 
@@ -653,10 +671,12 @@ void main() {
         fakeAsync((fake) {
           final val = GgValue(seed: 5);
           var counter = 0;
-          val.stream.where((_) {
-            counter++;
-            return true;
-          }).listen((event) {});
+          val.stream
+              .where((_) {
+                counter++;
+                return true;
+              })
+              .listen((event) {});
           fake.flushMicrotasks();
           expect(counter, 0);
           val.value = 6;

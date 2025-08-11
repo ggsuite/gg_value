@@ -22,10 +22,7 @@ void main() {
 
   void dispose() {}
 
-  void expectInsert({
-    required int index,
-    required List<int> changedValue,
-  }) {
+  void expectInsert({required int index, required List<int> changedValue}) {
     expect(listValue.value, changedValue);
     expect(lastChange.index, index);
     expect(lastChange.type, GgChangeType.insert);
@@ -253,79 +250,65 @@ void main() {
         });
       });
 
-      group(
-        'should move item to index far behind last index',
-        () {
-          test(
-            'with a list with more then two items',
-            () {
-              fakeAsync((fake) {
-                init();
+      group('should move item to index far behind last index', () {
+        test('with a list with more then two items', () {
+          fakeAsync((fake) {
+            init();
 
-                // Some vars
-                const oldValue = [0, 1, 2, 3];
-                final newValue = [
-                  0,
-                  2,
-                  3,
-                  1,
-                ];
-                listValue.value = oldValue;
+            // Some vars
+            const oldValue = [0, 1, 2, 3];
+            final newValue = [0, 2, 3, 1];
+            listValue.value = oldValue;
 
-                // Move last item to 0
-                var fromIndex = 1;
-                var toIndex = 1000;
-                listValue.move(fromIndex: fromIndex, toIndex: toIndex);
-                fake.flushMicrotasks();
+            // Move last item to 0
+            var fromIndex = 1;
+            var toIndex = 1000;
+            listValue.move(fromIndex: fromIndex, toIndex: toIndex);
+            fake.flushMicrotasks();
 
-                // Check outcome
-                expect(listValue.value, newValue);
+            // Check outcome
+            expect(listValue.value, newValue);
 
-                // Check change
-                expect(lastChange.index, oldValue.length - 1);
-                expect(lastChange.oldIndex, fromIndex);
-                expect(lastChange.type, GgChangeType.move);
-                expect(lastChange.oldValue, oldValue);
-                expect(lastChange.newValue, newValue);
+            // Check change
+            expect(lastChange.index, oldValue.length - 1);
+            expect(lastChange.oldIndex, fromIndex);
+            expect(lastChange.type, GgChangeType.move);
+            expect(lastChange.oldValue, oldValue);
+            expect(lastChange.newValue, newValue);
 
-                dispose();
-              });
-            },
-          );
+            dispose();
+          });
+        });
 
-          test(
-            'with a list less or equal two items',
-            () {
-              fakeAsync((fake) {
-                init();
+        test('with a list less or equal two items', () {
+          fakeAsync((fake) {
+            init();
 
-                // Some vars
-                const oldValue = [0, 1];
-                final newValue = [1, 0];
-                listValue.value = oldValue;
+            // Some vars
+            const oldValue = [0, 1];
+            final newValue = [1, 0];
+            listValue.value = oldValue;
 
-                // Move last item to 0
-                var fromIndex = 0;
-                var toIndex = 1000;
-                listValue.move(fromIndex: fromIndex, toIndex: toIndex);
-                fake.flushMicrotasks();
+            // Move last item to 0
+            var fromIndex = 0;
+            var toIndex = 1000;
+            listValue.move(fromIndex: fromIndex, toIndex: toIndex);
+            fake.flushMicrotasks();
 
-                // Check outcome
-                expect(listValue.value, newValue);
+            // Check outcome
+            expect(listValue.value, newValue);
 
-                // Check change
-                expect(lastChange.index, oldValue.length - 1);
-                expect(lastChange.oldIndex, fromIndex);
-                expect(lastChange.type, GgChangeType.move);
-                expect(lastChange.oldValue, oldValue);
-                expect(lastChange.newValue, newValue);
+            // Check change
+            expect(lastChange.index, oldValue.length - 1);
+            expect(lastChange.oldIndex, fromIndex);
+            expect(lastChange.type, GgChangeType.move);
+            expect(lastChange.oldValue, oldValue);
+            expect(lastChange.newValue, newValue);
 
-                dispose();
-              });
-            },
-          );
-        },
-      );
+            dispose();
+          });
+        });
+      });
 
       test('should move item from second last to second position', () {
         fakeAsync((fake) {

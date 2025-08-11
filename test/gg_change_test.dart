@@ -15,10 +15,7 @@ void main() {
         oldValue: 3,
         type: GgChangeType.update,
       );
-      expect(
-        ggchange.type,
-        GgChangeType.update,
-      );
+      expect(ggchange.type, GgChangeType.update);
     });
   });
 }

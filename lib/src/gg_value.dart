@@ -40,7 +40,7 @@ abstract class GgValueStream<T> extends Stream<T> {
 // #############################################################################
 class _MappedValueStream<S, T> extends GgValueStream<S> {
   _MappedValueStream(this.parent, this.mapping)
-      : _value = mapping(parent.value) {
+    : _value = mapping(parent.value) {
     _listenToParentStreamAndUpdateValue();
   }
 
@@ -55,10 +55,18 @@ class _MappedValueStream<S, T> extends GgValueStream<S> {
 
   // ...........................................................................
   @override
-  StreamSubscription<S> listen(void Function(S value)? onData,
-      {Function? onError, void Function()? onDone, bool? cancelOnError}) {
-    return baseStream.listen(onData,
-        onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+  StreamSubscription<S> listen(
+    void Function(S value)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) {
+    return baseStream.listen(
+      onData,
+      onError: onError,
+      onDone: onDone,
+      cancelOnError: cancelOnError,
+    );
   }
 
   final List<Function()> _dispose = [];
@@ -72,12 +80,14 @@ class _MappedValueStream<S, T> extends GgValueStream<S> {
 
   // ...........................................................................
   void _listenToParentStreamAndUpdateValue() {
-    final s = parent.baseStream.listen((event) => _value = mapping(event),
-        onDone: () {
-      for (final func in _dispose.reversed) {
-        func();
-      }
-    });
+    final s = parent.baseStream.listen(
+      (event) => _value = mapping(event),
+      onDone: () {
+        for (final func in _dispose.reversed) {
+          func();
+        }
+      },
+    );
     _dispose.add(s.cancel);
   }
 }
@@ -85,12 +95,16 @@ class _MappedValueStream<S, T> extends GgValueStream<S> {
 // #############################################################################
 class _WhereValueStream<T> extends GgValueStream<T> {
   _WhereValueStream(this.parent, this.filter) : _value = parent.value {
-    final s = parent.baseStream.where(filter).listen((event) => _value = event,
-        onDone: () {
-      for (final func in _dispose.reversed) {
-        func();
-      }
-    });
+    final s = parent.baseStream
+        .where(filter)
+        .listen(
+          (event) => _value = event,
+          onDone: () {
+            for (final func in _dispose.reversed) {
+              func();
+            }
+          },
+        );
     _dispose.add(s.cancel);
   }
 
@@ -103,10 +117,18 @@ class _WhereValueStream<T> extends GgValueStream<T> {
 
   // ...........................................................................
   @override
-  StreamSubscription<T> listen(void Function(T value)? onData,
-      {Function? onError, void Function()? onDone, bool? cancelOnError}) {
-    return baseStream.listen(onData,
-        onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+  StreamSubscription<T> listen(
+    void Function(T value)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) {
+    return baseStream.listen(
+      onData,
+      onError: onError,
+      onDone: onDone,
+      cancelOnError: cancelOnError,
+    );
   }
 
   final List<Function()> _dispose = [];
@@ -122,17 +144,22 @@ class _WhereValueStream<T> extends GgValueStream<T> {
 // #############################################################################
 /// Returns the stream together with a value getter.
 class _GgValueStream<T> extends GgValueStream<T> {
-  _GgValueStream({
-    required T Function() value,
-    required this.baseStream,
-  }) : _value = value;
+  _GgValueStream({required T Function() value, required this.baseStream})
+    : _value = value;
 
   // ...........................................................................
   @override
-  StreamSubscription<T> listen(void Function(T value)? onData,
-          {Function? onError, void Function()? onDone, bool? cancelOnError}) =>
-      baseStream.listen(onData,
-          onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+  StreamSubscription<T> listen(
+    void Function(T value)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) => baseStream.listen(
+    onData,
+    onError: onError,
+    onDone: onDone,
+    cancelOnError: cancelOnError,
+  );
 
   @override
   final Stream<T> baseStream;
@@ -204,10 +231,10 @@ class GgValue<T> implements GgReadOnlyValue<T> {
     T Function(String)? parse,
     String Function(T)? stringify,
     this.name,
-  })  : _value = seed,
-        _seed = seed,
-        _parse = parse,
-        _stringify = stringify {
+  }) : _value = seed,
+       _seed = seed,
+       _parse = parse,
+       _stringify = stringify {
     _initController();
     _initSync();
   }
@@ -304,7 +331,8 @@ class GgValue<T> implements GgReadOnlyValue<T> {
       return _value.toString();
     } else {
       throw ArgumentError(
-          'Missing "toString" method for unknown type "${T.toString()}".');
+        'Missing "toString" method for unknown type "${T.toString()}".',
+      );
     }
   }
 
@@ -333,7 +361,8 @@ class GgValue<T> implements GgReadOnlyValue<T> {
       this.value = value;
     } else {
       throw ArgumentError(
-          'Cannot assign json encoded value $value. The type ${value.runtimeType} is not supported.');
+        'Cannot assign json encoded value $value. The type ${value.runtimeType} is not supported.',
+      );
     }
   }
 

@@ -6,12 +6,7 @@
 
 part of 'gg_value.dart';
 
-enum GgChangeType {
-  remove,
-  insert,
-  update,
-  move,
-}
+enum GgChangeType { remove, insert, update, move }
 
 class GgChange<T> {
   const GgChange({
