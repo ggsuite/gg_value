@@ -183,42 +183,36 @@ void main() {
         expect(fooVal.stringValue, 'Foo3');
       });
 
-      test(
-        'should throw an exception if no parse method is provided for a custom function',
-        () {
-          final customVal = GgValue(seed: Foo());
+      test('should throw an exception if no parse method is provided for a custom function', () {
+        final customVal = GgValue(seed: Foo());
 
-          expect(
-            () => customVal.stringValue = 'hello',
-            throwsA(
-              predicate((ArgumentError e) {
-                expect(e.message, 'Missing "parse" method for type "Foo".');
-                return true;
-              }),
-            ),
-          );
-        },
-      );
+        expect(
+          () => customVal.stringValue = 'hello',
+          throwsA(
+            predicate((ArgumentError e) {
+              expect(e.message, 'Missing "parse" method for type "Foo".');
+              return true;
+            }),
+          ),
+        );
+      });
 
-      test(
-        'should throw an exception if no toString method is provided for a custom function',
-        () {
-          final customVal = GgValue(seed: Foo(), parse: (_) => Foo());
+      test('should throw an exception if no toString method is provided for a custom function', () {
+        final customVal = GgValue(seed: Foo(), parse: (_) => Foo());
 
-          expect(
-            () => customVal.stringValue,
-            throwsA(
-              predicate((ArgumentError e) {
-                expect(
-                  e.message,
-                  'Missing "toString" method for unknown type "Foo".',
-                );
-                return true;
-              }),
-            ),
-          );
-        },
-      );
+        expect(
+          () => customVal.stringValue,
+          throwsA(
+            predicate((ArgumentError e) {
+              expect(
+                e.message,
+                'Missing "toString" method for unknown type "Foo".',
+              );
+              return true;
+            }),
+          ),
+        );
+      });
 
       test('should work when type becomes dynamic', () {
         final dynamicVal = GgValue<dynamic>(seed: 5.0);
@@ -290,15 +284,12 @@ void main() {
         boolVal = GgValue(seed: false);
         stringVal = GgValue(seed: 'hello');
       });
-      test(
-        'should return the value directly if type is int, double, bool or string',
-        () {
-          expect(intVal.jsonDecodedValue, 1);
-          expect(doubleVal.jsonDecodedValue, 1.1);
-          expect(boolVal.jsonDecodedValue, false);
-          expect(stringVal.jsonDecodedValue, 'hello');
-        },
-      );
+      test('should return the value directly if type is int, double, bool or string', () {
+        expect(intVal.jsonDecodedValue, 1);
+        expect(doubleVal.jsonDecodedValue, 1.1);
+        expect(boolVal.jsonDecodedValue, false);
+        expect(stringVal.jsonDecodedValue, 'hello');
+      });
       test('should return stringValue, if type is a non trivial type', () {
         final fooVal = GgValue(seed: Foo(), stringify: (_) => 'Foo');
         expect(fooVal.jsonDecodedValue, 'Foo');

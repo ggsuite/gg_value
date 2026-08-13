@@ -10,6 +10,10 @@
 
 - Rework copyright headers
 
+### Fixed
+
+- Cleanup copy right headers. Update to dart 3.13. Auto fixes.
+
 ## 1.6.3 - 2024-04-13
 
 ### Removed
