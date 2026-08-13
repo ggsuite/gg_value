@@ -1,8 +1,8 @@
 // @license
-// Copyright (c) 2019 - 2021 Dr. Gabriel Gatzsche. All Rights Reserved.
+// Copyright (c) ggsuite
 //
 // Use of this source code is governed by terms that can be
-// found in the LICENSE file in the root of this repository.
+// found in the LICENSE file in the root of this package.
 
 import 'package:fake_async/fake_async.dart';
 import 'package:gg_value/gg_value.dart';
