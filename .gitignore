@@ -6,9 +6,6 @@
 build/
 # If you're building an application, you may want to check-in your pubspec.lock
 
-# Omit commiting pubspec.lock for library packages:
-# https://dart.dev/guides/libraries/private-files#pubspeclock
-pubspec.lock
 
 # Conventional directory for build outputs
 build/
@@ -27,3 +24,8 @@ doc/api/
 /.vscode
 /coverage
 .DS_Store
+.gg/publish_config.json
+.gg/publish_state.json
+.gg/gg-publish.json
+.gg/pubspec_overrides_backup.yaml
+.gg/pnpm_workspace_backup.yaml

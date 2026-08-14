@@ -1,26 +1,35 @@
 # Changelog
 
-## [Unreleased]
+## 1.7.0 - 2026-08-14
 
 ### Added
 
 - Add .gitattributes file
 
-## [1.6.3] - 2024-04-13
+### Changed
+
+- Rework copyright headers
+
+### Fixed
+
+- Cleanup copy right headers. Update to dart 3.13. Auto fixes.
+- Cleanup copy right headers. Update to dart 3.13. Auto fixes. Setup quick-check pipeline.
+
+## 1.6.3 - 2024-04-13
 
 ### Removed
 
-- dependency to gg\_install\_gg, remove ./check script
-- dependency to gg\_install\_gg, remove ./check script
+- dependency to gg_install_gg, remove ./check script
+- dependency to gg_install_gg, remove ./check script
 - dependency pana
 
-## [1.6.2] - 2024-04-09
+## 1.6.2 - 2024-04-09
 
 ### Removed
 
 - 'Pipline: Disable cache'
 
-## [1.6.1] - 2024-04-09
+## 1.6.1 - 2024-04-09
 
 ### Changed
 
@@ -89,7 +98,7 @@ specified. An exception will by thrown only `stringValue` is used.
 
 ## 0.0.9+4 - 2024-01-01
 
-- Moved source code to [https://github.com/inlavigo/gg\_value](https://github.com/inlavigo/gg_value)
+- Moved source code to [https://github.com/inlavigo/gg_value](https://github.com/inlavigo/gg_value)
 
 ## 0.0.9+2 - 2024-01-01
 
@@ -98,8 +107,3 @@ specified. An exception will by thrown only `stringValue` is used.
 ## 0.0.9+1 - 2024-01-01
 
 - Initial version.
-
-[Unreleased]: https://github.com/inlavigo/gg_value/compare/1.6.3...HEAD
-[1.6.3]: https://github.com/inlavigo/gg_value/compare/1.6.2...1.6.3
-[1.6.2]: https://github.com/inlavigo/gg_value/compare/1.6.1...1.6.2
-[1.6.1]: https://github.com/inlavigo/gg_value/compare/1.6.0...1.6.1

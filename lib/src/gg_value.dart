@@ -1,8 +1,8 @@
 // @license
-// Copyright (c) 2019 - 2021 Dr. Gabriel Gatzsche. All Rights Reserved.
+// Copyright (c) ggsuite
 //
 // Use of this source code is governed by terms that can be
-// found in the LICENSE file in the root of this repository.
+// found in the LICENSE file in the root of this package.
 
 import 'dart:async';
 import 'dart:math';
@@ -144,8 +144,7 @@ class _WhereValueStream<T> extends GgValueStream<T> {
 // #############################################################################
 /// Returns the stream together with a value getter.
 class _GgValueStream<T> extends GgValueStream<T> {
-  _GgValueStream({required T Function() value, required this.baseStream})
-    : _value = value;
+  _GgValueStream({required this._value, required this.baseStream});
 
   // ...........................................................................
   @override
@@ -217,9 +216,9 @@ class GgValue<T> implements GgReadOnlyValue<T> {
   ///   tasks. New updates are not added until the last update has been delivered.
   ///   Only the last set value will be delivered.
   /// - [transform] allows you to keep value in a given range or transform it.
-  /// - [parse] is needed when [T] is not [String], [int], [double] or [bool].
+  /// - [_parse] is needed when [T] is not [String], [int], [double] or [bool].
   ///   It converts a string into [T].
-  /// - [stringify] is needed when [T] is not [String], [int], [double] or [bool].
+  /// - [_stringify] is needed when [T] is not [String], [int], [double] or [bool].
   ///   It converts the value into a [String].
   /// - [name] is an optional identifier for the value.
   GgValue({
@@ -228,13 +227,11 @@ class GgValue<T> implements GgReadOnlyValue<T> {
     this.compare,
     this.transform,
     this.isOk,
-    T Function(String)? parse,
-    String Function(T)? stringify,
+    this._parse,
+    this._stringify,
     this.name,
   }) : _value = seed,
-       _seed = seed,
-       _parse = parse,
-       _stringify = stringify {
+       _seed = seed {
     _initController();
     _initSync();
   }
