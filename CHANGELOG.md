@@ -5,6 +5,7 @@
 ### Changed
 
 - Use ggwsm in pipelines
+- Install the dna_ggsuite DNA
 
 ## 1.7.0 - 2026-08-14
 
