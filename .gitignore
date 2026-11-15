@@ -30,4 +30,5 @@ doc/api/
 .gg/pubspec_overrides_backup.yaml
 .gg/pnpm_workspace_backup.yaml
 .gg/*
+!.gg/gg_rc
 !.gg/gg.json
